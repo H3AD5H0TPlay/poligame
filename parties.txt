@@ -1,0 +1,17 @@
+# Poligame - Pártok és Wikipédia források
+# Ezt az adatbázist használja majd az AI a pártok paramétereinek (ideológia, radikalizmus) algoritmikus meghatározására.
+# Formátum: [Rövid név] | [Teljes név] | [Magyar Wikipédia link]
+
+Fidesz | Fidesz – Magyar Polgári Szövetség | https://hu.wikipedia.org/wiki/Fidesz_–_Magyar_Polgári_Szövetség
+KDNP | Kereszténydemokrata Néppárt | https://hu.wikipedia.org/wiki/Kereszténydemokrata_Néppárt
+TISZA | Tisztelet és Szabadság Párt | https://hu.wikipedia.org/wiki/Tisztelet_és_Szabadság_Párt
+DK | Demokratikus Koalíció | https://hu.wikipedia.org/wiki/Demokratikus_Koalíció
+Mi Hazánk | Mi Hazánk Mozgalom | https://hu.wikipedia.org/wiki/Mi_Hazánk_Mozgalom
+Momentum | Momentum Mozgalom | https://hu.wikipedia.org/wiki/Momentum_Mozgalom
+MKKP | Magyar Kétfarkú Kutya Párt | https://hu.wikipedia.org/wiki/Magyar_Kétfarkú_Kutya_Párt
+Jobbik | Jobbik – Konzervatívok | https://hu.wikipedia.org/wiki/Jobbik_–_Konzervatívok
+MSZP | Magyar Szocialista Párt | https://hu.wikipedia.org/wiki/Magyar_Szocialista_Párt
+LMP | LMP – Magyarország Zöld Pártja | https://hu.wikipedia.org/wiki/LMP_–_Magyarország_Zöld_Pártja
+Párbeszéd | Párbeszéd – A Zöldek Pártja | https://hu.wikipedia.org/wiki/Párbeszéd_–_A_Zöldek_Pártja
+2RK | Második Reformkor Párt | https://hu.wikipedia.org/wiki/Második_Reformkor_Párt
+MMN | Mindenki Magyarországa Néppárt | https://hu.wikipedia.org/wiki/Mindenki_Magyarországa_Néppárt

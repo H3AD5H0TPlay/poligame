@@ -1,0 +1,18 @@
+# Python / PyInstaller generált felesleges fájlok, amikre semmi szükség
+build/
+*.spec
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Szerkesztő beállítások (ha később használsz valamilyen IDE-t)
+.vscode/
+.idea/
+
+# KIFEJEZETTEN ENGEDÉLYEZZÜK A JÁTÉKOT TARTALMAZÓ MAPPÁT
+# Bár a PyInstaller normál esetben ide rakja az .exe fájlt, és ezt ignorálni szokás, 
+# a kérésed szerint a játékot "kulcsrakészen" kell megkapniuk a letöltőknek.
+# Így a 'dist' mappa (ami a futtatható .exe fájlt tartalmazza) fel fog kerülni a GitHubra!
+!dist/
+!dist/*.exe
