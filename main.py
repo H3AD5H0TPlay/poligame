@@ -2,26 +2,53 @@ import sys
 import os
 import pygame
 
-# Kényszerítjük, hogy az ablak a bal felső sarokba (0,0) igazodjon, így a NOFRAME tényleg kitölti a képernyőt.
-os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+# --- KEZDETI BEÁLLÍTÁS: SPLASH SCREEN ---
+# Töröljük a 0,0 kényszerítést (ha be volt állítva), hogy a kis ablak normálisan, 
+# a Windows által pozicionálva (vagy középre) tudjon nyílni.
+if 'SDL_VIDEO_WINDOW_POS' in os.environ:
+    del os.environ['SDL_VIDEO_WINDOW_POS']
 
 pygame.init()
-pygame.display.set_caption("Poligame - Főmenü")
 
-# Lekérjük a monitorod tényleges, teljes felbontását
+# Dinamikus Splash Screen felépítése
+splash_w, splash_h = 400, 200
+screen = pygame.display.set_mode((splash_w, splash_h), pygame.NOFRAME)
+
+font_splash = pygame.font.SysFont("Segoe UI", 28, bold=True)
+screen.fill((20, 20, 30))
+text_surf = font_splash.render("Inicializálás...", True, (255, 200, 50))
+text_rect = text_surf.get_rect(center=(splash_w//2, splash_h//2))
+screen.blit(text_surf, text_rect)
+pygame.display.flip()
+
+# Események pumpálása, hogy a rendszer regisztrálja a kirajzolt képernyőt
+pygame.event.pump()
+
+# --- DINAMIKUS BETÖLTÉS (ASSETS) ---
+def load_game_data():
+    # Ide kerül be a jövőben a parties.txt, OEVK térkép, adattábla, AI változók betöltése.
+    # Mivel ez dinamikus, pont addig tart a "Splash Screen" ameddig ez a függvény le nem fut.
+    # Jelenleg ez technológiailag 0.01 másodperc, így a kiírás szinte azonnal "ugrik" a nagyképernyőre, egy valós játékhoz hűen!
+    pass
+
+load_game_data()
+
+# --- FŐMENÜ (VALÓDI BORDERLESS FULLSCREEN) ---
+# Most kényszerítjük, hogy az ablak a bal felső sarokba (0,0) igazodjon, így a NOFRAME tényleg kitölti a képernyőt összevisszaság nélkül.
+os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+
+# Lekérjük a monitorod tényleges felbontását
 info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
 
-# Valódi Borderless Fullscreen (Keret nélküli teljes képernyő)
+# Valódi Borderless Fullscreen a kikalkulált felbontással
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
-
-# Itt fogjuk később elvégezni a szükséges betöltéseket (fájlok olvasása, térkép betöltése)
-# Most semmilyen mesterséges megállítást nem rakunk bele!
+pygame.display.set_caption("Poligame - Főmenü")
 
 font_large = pygame.font.SysFont("Segoe UI", 48, bold=True)
 font_small = pygame.font.SysFont("Segoe UI", 24)
 
-# Colors
+# Színek
 BG_COLOR = (30, 30, 40)
 BTN_NORMAL = (50, 150, 200)
 BTN_HOVER = (70, 180, 230)
@@ -72,16 +99,16 @@ def main():
                         
         screen.fill(BG_COLOR)
         
-        # Title
+        # Címke
         title_surf = font_large.render("POLIGAME", True, (200, 200, 200))
         title_rect = title_surf.get_rect(center=(WIDTH//2, HEIGHT//4))
         screen.blit(title_surf, title_rect)
         
-        # Draw buttons
+        # Gombok
         btn_play.draw(screen)
         btn_exit.draw(screen)
         
-        # "Hamarosan" popup message
+        # Hamarosan lebegő felirat popup
         if show_coming_soon:
             msg_surf = font_small.render("Hamarosan!", True, (255, 200, 50))
             msg_rect = msg_surf.get_rect(center=(WIDTH//2, HEIGHT//2 - 110))
