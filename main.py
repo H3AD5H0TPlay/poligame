@@ -2,52 +2,42 @@ import sys
 import os
 import pygame
 
-# --- KEZDETI BEÁLLÍTÁS: SPLASH SCREEN ---
-# Töröljük a 0,0 kényszerítést (ha be volt állítva), hogy a kis ablak normálisan, 
-# a Windows által pozicionálva (vagy középre) tudjon nyílni.
-if 'SDL_VIDEO_WINDOW_POS' in os.environ:
-    del os.environ['SDL_VIDEO_WINDOW_POS']
+# Kényszerítjük, hogy a legelső (és egyetlen) ablak garantáltan a bal felső sarokba (0,0) kerüljön!
+os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
 
 pygame.init()
+pygame.display.set_caption("Poligame - Főmenü")
 
-# Dinamikus Splash Screen felépítése
-splash_w, splash_h = 400, 200
-screen = pygame.display.set_mode((splash_w, splash_h), pygame.NOFRAME)
+# Lekérjük a monitor tényleges felbontását
+info = pygame.display.Info()
+WIDTH, HEIGHT = info.current_w, info.current_h
+
+# EGYETLEN ABLAK LÉTREHOZÁSA: Rögtön a végleges, teljes képernyős Borderless ablakot nyitjuk meg!
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
 
 font_splash = pygame.font.SysFont("Segoe UI", 28, bold=True)
+font_large = pygame.font.SysFont("Segoe UI", 48, bold=True)
+font_small = pygame.font.SysFont("Segoe UI", 24)
+
+# --- SPLASH SCREEN KIRAJZOLÁSA A NAGY ABLAK KÖZEPÉRE ---
 screen.fill((20, 20, 30))
 text_surf = font_splash.render("Inicializálás...", True, (255, 200, 50))
-text_rect = text_surf.get_rect(center=(splash_w//2, splash_h//2))
+text_rect = text_surf.get_rect(center=(WIDTH//2, HEIGHT//2))
 screen.blit(text_surf, text_rect)
 pygame.display.flip()
 
-# Események pumpálása, hogy a rendszer regisztrálja a kirajzolt képernyőt
+# Események pumpálása, hogy a rendszer regisztrálja a kirajzolt képernyőt (ne tűnjön fagytnak)
 pygame.event.pump()
 
 # --- DINAMIKUS BETÖLTÉS (ASSETS) ---
 def load_game_data():
-    # Ide kerül be a jövőben a parties.txt, OEVK térkép, adattábla, AI változók betöltése.
-    # Mivel ez dinamikus, pont addig tart a "Splash Screen" ameddig ez a függvény le nem fut.
-    # Jelenleg ez technológiailag 0.01 másodperc, így a kiírás szinte azonnal "ugrik" a nagyképernyőre, egy valós játékhoz hűen!
+    # Ide kerül a jövőben a parties.txt, OEVK térkép beolvasása.
+    # Amíg ez a függvény tart, a képernyőn látszódik az "Inicializálás..." felirat.
     pass
 
 load_game_data()
 
-# --- FŐMENÜ (VALÓDI BORDERLESS FULLSCREEN) ---
-# Most kényszerítjük, hogy az ablak a bal felső sarokba (0,0) igazodjon, így a NOFRAME tényleg kitölti a képernyőt összevisszaság nélkül.
-os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
-
-# Lekérjük a monitorod tényleges felbontását
-info = pygame.display.Info()
-WIDTH, HEIGHT = info.current_w, info.current_h
-
-# Valódi Borderless Fullscreen a kikalkulált felbontással
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
-pygame.display.set_caption("Poligame - Főmenü")
-
-font_large = pygame.font.SysFont("Segoe UI", 48, bold=True)
-font_small = pygame.font.SysFont("Segoe UI", 24)
-
+# --- FŐMENÜ ---
 # Színek
 BG_COLOR = (30, 30, 40)
 BTN_NORMAL = (50, 150, 200)
