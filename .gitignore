@@ -1,5 +1,6 @@
-# Python / PyInstaller generált felesleges fájlok, amikre semmi szükség
+# Python / PyInstaller generált felesleges fájlok
 build/
+dist/
 *.spec
 __pycache__/
 *.pyc
@@ -10,9 +11,6 @@ __pycache__/
 .vscode/
 .idea/
 
-# KIFEJEZETTEN ENGEDÉLYEZZÜK A JÁTÉKOT TARTALMAZÓ MAPPÁT
-# Bár a PyInstaller normál esetben ide rakja az .exe fájlt, és ezt ignorálni szokás, 
-# a kérésed szerint a játékot "kulcsrakészen" kell megkapniuk a letöltőknek.
-# Így a 'dist' mappa (ami a futtatható .exe fájlt tartalmazza) fel fog kerülni a GitHubra!
-!dist/
-!dist/*.exe
+# KIFEJEZETTEN ENGEDÉLYEZZÜK A JÁTÉKOT TARTALMAZÓ FÁJLT A GYÖKÉRBEN
+# Mivel kérted, hogy egyből a gyökérben legyen a letölthető végleges program.
+!/Poligame.exe

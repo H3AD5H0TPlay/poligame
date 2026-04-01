@@ -1,34 +1,22 @@
 import sys
-import time
+import os
 import pygame
 
+# Kényszerítjük, hogy az ablak a bal felső sarokba (0,0) igazodjon, így a NOFRAME tényleg kitölti a képernyőt.
+os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+
 pygame.init()
-
-# --- SPLASH SCREEN (INICIALIZÁLÁS) ---
-splash_w, splash_h = 400, 200
-# Keret nélküli (NOFRAME) kis ablak, ami rögtön megjelenik
-screen = pygame.display.set_mode((splash_w, splash_h), pygame.NOFRAME)
-
-font_splash = pygame.font.SysFont("Segoe UI", 28, bold=True)
-screen.fill((20, 20, 30))
-
-text_surf = font_splash.render("Inicializálás...", True, (255, 200, 50))
-text_rect = text_surf.get_rect(center=(splash_w//2, splash_h//2))
-screen.blit(text_surf, text_rect)
-pygame.display.flip()
-
-# Szimulálunk egy kis töltési időt (később itt töltjük be a térképet és a pártokat)
-# Ez alatt az ablakot nem lehet "X"-szel bezárni (mivel nincs is kerete)
-time.sleep(2.0)
-
-
-# --- MAIN MENU (FŐMENÜ) ---
 pygame.display.set_caption("Poligame - Főmenü")
 
-# Ablak nélküli, teljes képernyős mód (Windowed Fullscreen / Borderless)
+# Lekérjük a monitorod tényleges, teljes felbontását
 info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
+
+# Valódi Borderless Fullscreen (Keret nélküli teljes képernyő)
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
+
+# Itt fogjuk később elvégezni a szükséges betöltéseket (fájlok olvasása, térkép betöltése)
+# Most semmilyen mesterséges megállítást nem rakunk bele!
 
 font_large = pygame.font.SysFont("Segoe UI", 48, bold=True)
 font_small = pygame.font.SysFont("Segoe UI", 24)
@@ -56,7 +44,6 @@ class Button:
 def main():
     clock = pygame.time.Clock()
     
-    # Középre igazítjuk a gombokat a képernyő mérete alapján
     btn_play = Button(WIDTH//2 - 150, HEIGHT//2 - 60, 300, 60, "Játék")
     btn_exit = Button(WIDTH//2 - 150, HEIGHT//2 + 40, 300, 60, "Kilépés")
     
