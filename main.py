@@ -24,8 +24,6 @@ font_large = pygame.font.SysFont("Segoe UI", 48, bold=True)
 font_small = pygame.font.SysFont("Segoe UI", 24)
 
 # --- PYINSTALLER BOOTLOADER SPLASH SCREEN BEZÁRÁSA ---
-# Mivel beállítottuk, hogy a .exe kicsomagolása alatt is már legyen egy képkocka, 
-# amint elérjük a Pygame-et szoftveresen be kell zárni azt az ablakot.
 try:
     import pyi_splash
     pyi_splash.close()
@@ -51,7 +49,6 @@ class MapRenderer:
         self.scale = 1.0
         self.base_scale = 1.0
         
-        # Panning állapot
         self.is_dragging = False
         self.last_mouse_pos = (0, 0)
 
@@ -68,28 +65,18 @@ class MapRenderer:
 
         county_polygons = {}
 
-        # Közép-Szélesség kiszámítása az eltorzult (nyomott) magyar térkép javításához (Mercator hatás)
-        # Magyarország kb. 47 fok szélességen van, 1 lon fok egyenlő cos(47) lat fokkal.
         HUNGARY_CENTER_LAT = 47.16 
         lon_ratio = math.cos(math.radians(HUNGARY_CENTER_LAT))
 
-        # OEVK adatok feldolgozása
         for feature in data['features']:
             geom = shape(feature['geometry'])
-            geom = make_valid(geom).buffer(0) # Topológiai hibák ("TopologyException") javítása
-            
-            # 1. OPTIMALIZÁCIÓ (LAG) - Geometriai részletesség butítása (100 méteres pontosságra), vizuálisan észrevehetetlen, de 90%-kal kevesebb számítás!
+            geom = make_valid(geom).buffer(0) 
             geom = geom.simplify(0.0005, preserve_topology=True) 
-            
-            # 2. OPTIMALIZÁCIÓ (NYOMOTT KÉP) - A szélességi/hosszúsági arányok fixálása
             geom = shapely_scale(geom, xfact=lon_ratio, yfact=1.0, origin=(0, 0))
 
             name = feature['properties']['name']
-            
-            # Formátum: "MegyeNév Szám" -> pl. "Zala 01" vagy "Borsod-Abaúj-Zemplén 04"
             county_name = name.rsplit(' ', 1)[0]
             
-            # Határok kinyerése a centering-hez
             minx, miny, maxx, maxy = geom.bounds
             self.min_lon = min(self.min_lon, minx)
             self.max_lon = max(self.max_lon, maxx)
@@ -102,12 +89,10 @@ class MapRenderer:
                 "geom": geom
             })
 
-            # Csoportosítás egybeolvasztáshoz (Megyék)
             if county_name not in county_polygons:
                 county_polygons[county_name] = []
             county_polygons[county_name].append(geom)
 
-        # Shapely összeolvasztja a kerületeket megyévé a térkép alapján
         for county_name, polys in county_polygons.items():
             merged_geom = unary_union(polys)
             self.counties[county_name] = {
@@ -120,7 +105,6 @@ class MapRenderer:
         map_h = self.max_lat - self.min_lat
         if map_w == 0 or map_h == 0: return
 
-        # Kezdetben 90%-át kitölti a képernyőnek az egybefüggő térkép
         scale_x = (WIDTH * 0.9) / map_w
         scale_y = (HEIGHT * 0.9) / map_h
         self.base_scale = min(scale_x, scale_y)
@@ -134,13 +118,13 @@ class MapRenderer:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1: # Bal klikk húzáshoz
+            if event.button == 1: 
                 self.is_dragging = True
                 self.last_mouse_pos = event.pos
-            elif event.button == 4: # Görgő fel (Zoom In)
+            elif event.button == 4:
                 self._zoom(1.2, event.pos)
-            elif event.button == 5: # Görgő le (Zoom Out)
-                if self.scale > self.base_scale * 0.5: # Ne lehessen túlzottan kizoomolni
+            elif event.button == 5:
+                if self.scale > self.base_scale * 0.5:
                     self._zoom(1.0 / 1.2, event.pos)
                     
         elif event.type == pygame.MOUSEBUTTONUP:
@@ -156,7 +140,6 @@ class MapRenderer:
                 self.last_mouse_pos = event.pos
 
     def _zoom(self, factor, mouse_pos):
-        # Zoomolás az egér pozíciója körül (szabályos GIS kamera logika)
         mouse_lon = (mouse_pos[0] - self.offset_x) / self.scale + self.min_lon
         mouse_lat = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
         
@@ -174,8 +157,6 @@ class MapRenderer:
         return (x, y)
 
     def draw_polygon(self, surface, geom, fill_color, border_color, border_width):
-        # OPTIMALIZÁCIÓ: Ciklusokon belüli függvényhívás (`geo_to_screen`) megölte a teljesítményt (LAG).
-        # Helyette a számítást egyenesen beépítjük egy lokális villámgyors Python C-optimalizált list comprehensionbe!
         s = self.scale
         ox = self.offset_x
         oy = self.offset_y
@@ -195,36 +176,26 @@ class MapRenderer:
                     pygame.draw.lines(surface, border_color, True, coords, border_width)
 
     def draw(self, surface, mouse_pos):
-        # Térkép háttere (pl. sötétkék "víz")
         surface.fill((25, 30, 45))
-
         hovered_name = None
-        # Földrajzi pozíció az egér alatt (Point-in-Polygon teszthez)
         geo_x = (mouse_pos[0] - self.offset_x) / self.scale + self.min_lon
         geo_y = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
         geo_mouse = Point(geo_x, geo_y)
         
-        # ZOOM_THRESHOLD: 2.5-szeres nagyítás felett már OEVK-k, alatta puszta Megyék
         show_oevk = self.scale > (self.base_scale * 2.5)
-
         element_list = self.oevks if show_oevk else self.counties.values()
         
         for elem in element_list:
             geom = elem['geom']
             minx, miny, maxx, maxy = geom.bounds
             
-            # --- 3. OPTIMALIZÁCIÓ (OEVK LAG): SCREEN CULLING (Megjelenítés elrejtése a képernyőn kívül) ---
-            # Ha felzoomolunk, csak a látható OEVK-kat számítjuk ki és rajzoljuk le! Ami kiment a képből, kidobjuk erre a képkockára.
             screen_left, screen_bottom = self.geo_to_screen(minx, miny)
             screen_right, screen_top = self.geo_to_screen(maxx, maxy)
             
-            # (Y tengely fordítva van földrajzilag és a Pygame-ben, ezért a top/bottom ellenőrzés trükkös)
             if screen_right < 0 or screen_left > WIDTH or screen_bottom < 0 or screen_top > HEIGHT:
-                continue # Egyszerűen átugorjuk a kirajzolást (Ez adja vissza a sima 60 FPS-t bezoomoláskor!)
+                continue 
             
             is_hovered = False
-            
-            # Csak akkor végzünk pontos shapely elemzést, ha az egerünk a négyzetes (Bounding box) határon belül van (Optimalizáció!)
             if minx <= geo_x <= maxx and miny <= geo_y <= maxy:
                 if geom.contains(geo_mouse):
                     is_hovered = True
@@ -240,26 +211,27 @@ class MapRenderer:
             
             self.draw_polygon(surface, geom, fill_color, border_color, border_w)
 
-        # UI sáv kirajzolása a Hover infóhoz
         if hovered_name:
-            # Követi az egeret
             infobox = font_small.render(hovered_name, True, (255, 255, 255))
             ib_rect = infobox.get_rect(midbottom=(mouse_pos[0], mouse_pos[1] - 15))
-            
-            # Sötét háttér a szövegnek
             bg_rect = ib_rect.copy()
             bg_rect.inflate_ip(10, 10)
             pygame.draw.rect(surface, (0, 0, 0, 180), bg_rect, border_radius=4)
             surface.blit(infobox, ib_rect)
 
-# Adatok betöltése
 map_engine = MapRenderer("data/oevk.json")
 
 
-# --- UI GOMBOK ÉS ÁLLAPOTGÉP ---
+# --- UI GOMBOK, INPUTBOXOK ÉS ÁLLAPOTGÉP ---
 STATE_MENU = 0
-STATE_MAP = 1
+STATE_PARTY_SELECT = 1
+STATE_SCENARIO_SELECT = 2
+STATE_CUSTOM_SETUP = 3
+STATE_MAP = 4
+
 current_state = STATE_MENU
+selected_party = None
+custom_percentages = {}
 
 class Button:
     def __init__(self, x, y, width, height, text):
@@ -275,12 +247,80 @@ class Button:
         txt_rect = txt_surf.get_rect(center=self.rect.center)
         surface.blit(txt_surf, txt_rect)
 
+class InputBox:
+    def __init__(self, x, y, w, h, text=''):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.color_inactive = pygame.Color('lightskyblue3')
+        self.color_active = pygame.Color('dodgerblue2')
+        self.color = self.color_inactive
+        self.text = text
+        self.txt_surface = font_large.render(text, True, self.color)
+        self.active = False
+        self.cursor_visible = False
+        self.timer = 0
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if self.rect.collidepoint(event.pos):
+                self.active = True
+                if self.text == "0": # Töröljük a 0-t fókuszba kerüléskor!
+                    self.text = ""
+            else:
+                self.active = False
+                if self.text == "": # Tegyük vissza a 0-t, ha üresen hagyták!
+                    self.text = "0"
+            self.color = self.color_active if self.active else self.color_inactive
+            self.txt_surface = font_large.render(self.text, True, self.color)
+            
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]
+            elif event.key != pygame.K_RETURN:
+                if event.unicode.isnumeric() and len(self.text) < 3:
+                    self.text += event.unicode
+            self.txt_surface = font_large.render(self.text, True, self.color)
+
+    def draw(self, screen):
+        # Doboz háttér
+        pygame.draw.rect(screen, (30, 30, 40), self.rect)
+        # Keret (szín cserélődik, ha fókuszban van)
+        pygame.draw.rect(screen, self.color, self.rect, 3, border_radius=5)
+        # Szöveg renderelés középen
+        screen.blit(self.txt_surface, self.txt_surface.get_rect(center=self.rect.center))
+
+    def get_value(self):
+        try:
+            return int(self.text)
+        except ValueError:
+            return 0
+
 def main():
-    global current_state
+    global current_state, selected_party, custom_percentages
     clock = pygame.time.Clock()
     
+    # 1. Menü Gombok
     btn_play = Button(WIDTH//2 - 150, HEIGHT//2 - 60, 300, 60, "Játék")
     btn_exit = Button(WIDTH//2 - 150, HEIGHT//2 + 40, 300, 60, "Kilépés")
+    
+    # 2. Pártválasztás
+    parties = ["Tisza", "Fidesz", "Mi Hazánk", "MKKP", "DK"]
+    party_buttons = []
+    start_y = HEIGHT//2 - 150
+    for i, p in enumerate(parties):
+        party_buttons.append(Button(WIDTH//2 - 150, start_y + i * 70, 300, 50, p))
+        
+    # 3. Szcenárió gombok
+    btn_scenario_lore = Button(WIDTH//2 - 250, HEIGHT//2 - 80, 500, 60, "Történelmi felállás (Hamarosan)")
+    btn_scenario_custom = Button(WIDTH//2 - 250, HEIGHT//2 + 40, 500, 60, "Egyéni szimuláció")
+    
+    # 4. Egyéni szimuláció TextBoxok
+    input_boxes = {}
+    box_y = HEIGHT//2 - 150
+    for p in parties:
+        input_boxes[p] = InputBox(WIDTH//2 + 50, box_y, 100, 50, '0')
+        box_y += 70
+        
+    btn_start_custom = Button(WIDTH//2 - 150, HEIGHT//2 + 280, 300, 60, "Tovább a Térképre")
     
     while True:
         mouse_pos = pygame.mouse.get_pos()
@@ -290,26 +330,72 @@ def main():
                 pygame.quit()
                 sys.exit()
                 
+            # - MENU ÁLLAPOT -
             if current_state == STATE_MENU:
                 btn_play.is_hovered = btn_play.rect.collidepoint(mouse_pos)
                 btn_exit.is_hovered = btn_exit.rect.collidepoint(mouse_pos)
                 
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if btn_play.is_hovered:
-                        current_state = STATE_MAP # Térkép betöltése!
+                        current_state = STATE_PARTY_SELECT # Átugrunk a pártválasztóba
                     if btn_exit.is_hovered:
                         pygame.quit()
                         sys.exit()
-                        
-            elif current_state == STATE_MAP:
-                # Főleg pannelést (bal klikk) és zoomolást (görgő) kezel
-                map_engine.handle_event(event)
-                
-                # ESC visszadob a menübe
+            
+            # - PÁRTVÁLASZTÓ ÁLLAPOT -
+            elif current_state == STATE_PARTY_SELECT:
+                for p_btn in party_buttons:
+                    p_btn.is_hovered = p_btn.rect.collidepoint(mouse_pos)
+                    
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    for p_btn in party_buttons:
+                        if p_btn.is_hovered:
+                            selected_party = p_btn.text
+                            current_state = STATE_SCENARIO_SELECT # Jövünk a Szenárióba
+                            break
+                            
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     current_state = STATE_MENU
+            
+            # - SZCENÁRIÓ VÁLASZTÓ ÁLLAPOT -
+            elif current_state == STATE_SCENARIO_SELECT:
+                btn_scenario_lore.is_hovered = False # Nem lehet kattintani (Hamarosan)
+                btn_scenario_custom.is_hovered = btn_scenario_custom.rect.collidepoint(mouse_pos)
+                
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if btn_scenario_custom.is_hovered:
+                        current_state = STATE_CUSTOM_SETUP
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    current_state = STATE_PARTY_SELECT
+                    
+            # - EGYÉNI SZÁZALÉK INPUT ÁLLAPOT -
+            elif current_state == STATE_CUSTOM_SETUP:
+                # Esemény továbbítása a text boxoknak
+                for box in input_boxes.values():
+                    box.handle_event(event)
+                    
+                total = sum(b.get_value() for b in input_boxes.values())
+                btn_start_custom.is_hovered = btn_start_custom.rect.collidepoint(mouse_pos) if total == 100 else False
+                
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    if btn_start_custom.is_hovered and total == 100:
+                        # Ha fixen 100, akkor mentsük és indítsuk
+                        for p, box in input_boxes.items():
+                            custom_percentages[p] = box.get_value()
+                        current_state = STATE_MAP
                         
-        # Renderelés állapotfüggően
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    current_state = STATE_SCENARIO_SELECT
+                    
+            # - TÉRKÉP ÁLLAPOT -
+            elif current_state == STATE_MAP:
+                map_engine.handle_event(event)
+                
+                # ESC visszadob a menübe innen is
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    current_state = STATE_MENU
+                    
+        # --- RENDERELÉSI SZAKASZ ---
         if current_state == STATE_MENU:
             screen.fill((30, 30, 40))
             title_surf = font_large.render("POLIGAME", True, (200, 200, 200))
@@ -317,12 +403,98 @@ def main():
             btn_play.draw(screen)
             btn_exit.draw(screen)
             
+        elif current_state == STATE_PARTY_SELECT:
+            screen.fill((30, 30, 40))
+            title_surf = font_large.render("VÁLASSZ PÁRTOT", True, (220, 220, 100))
+            screen.blit(title_surf, title_surf.get_rect(center=(WIDTH//2, HEIGHT//6)))
+            
+            for p_btn in party_buttons:
+                p_btn.draw(screen)
+            
+            help_surf = font_small.render("[ ESC ] Vissza", True, (150, 150, 150))
+            screen.blit(help_surf, help_surf.get_rect(center=(WIDTH//2, HEIGHT - 50)))
+            
+        elif current_state == STATE_SCENARIO_SELECT:
+            screen.fill((30, 30, 40))
+            title_surf = font_large.render("VÁLASSZ SZCENÁRIÓT", True, (100, 200, 255))
+            screen.blit(title_surf, title_surf.get_rect(center=(WIDTH//2, HEIGHT//4)))
+            
+            btn_scenario_lore.draw(screen) # Alapból inactive rajz, de a Button így is szép
+            # Szürke override a "Lore" gombra (mivel Disabled)
+            pygame.draw.rect(screen, (80, 80, 80), btn_scenario_lore.rect, border_radius=8)
+            txt_surf = font_large.render(btn_scenario_lore.text, True, (150,150,150))
+            screen.blit(txt_surf, txt_surf.get_rect(center=btn_scenario_lore.rect.center))
+            
+            btn_scenario_custom.draw(screen)
+            
+            help_surf = font_small.render("[ ESC ] Vissza", True, (150, 150, 150))
+            screen.blit(help_surf, help_surf.get_rect(center=(WIDTH//2, HEIGHT - 50)))
+            
+        elif current_state == STATE_CUSTOM_SETUP:
+            screen.fill((30, 30, 40))
+            title_surf = font_large.render("EGYÉNI TÁMOGATOTTSÁG (% BEÁLLÍTÁSA)", True, (220, 220, 100))
+            screen.blit(title_surf, title_surf.get_rect(center=(WIDTH//2, HEIGHT//6)))
+            
+            total = sum(b.get_value() for b in input_boxes.values())
+            
+            draw_y = HEIGHT//2 - 150
+            for p in parties:
+                lbl_surf = font_large.render(p, True, (255, 255, 255))
+                screen.blit(lbl_surf, (WIDTH//2 - 200, draw_y))
+                input_boxes[p].rect.y = draw_y
+                input_boxes[p].draw(screen)
+                
+                pct_surf = font_large.render("%", True, (200, 200, 200))
+                screen.blit(pct_surf, (WIDTH//2 + 160, draw_y))
+                draw_y += 70
+                
+            color_total = (50, 255, 50) if total == 100 else (255, 80, 80)
+            tot_surf = font_large.render(f"ÖSSZESEN: {total} / 100%", True, color_total)
+            screen.blit(tot_surf, tot_surf.get_rect(center=(WIDTH//2, HEIGHT//2 + 215)))
+            
+            if total == 100:
+                btn_start_custom.draw(screen)
+            else:
+                pygame.draw.rect(screen, (80, 80, 80), btn_start_custom.rect, border_radius=8)
+                txt_surf = font_large.render(btn_start_custom.text, True, (150,150,150))
+                screen.blit(txt_surf, txt_surf.get_rect(center=btn_start_custom.rect.center))
+
+            help_surf = font_small.render("Kattints a számokra az átíráshoz.  |  [ ESC ] Vissza", True, (150, 150, 150))
+            screen.blit(help_surf, help_surf.get_rect(center=(WIDTH//2, HEIGHT - 50)))
+            
         elif current_state == STATE_MAP:
             map_engine.draw(screen, mouse_pos)
             
-            # Súgó a jobb felső sarokban
-            help_surf = font_small.render("[ ESC ] Vissza a menübe | [ Bal Klikk ] Kamera húzása | [ Görgő ] Nagyítás / OEVK-k megtekintése", True, (200, 200, 200))
-            screen.blit(help_surf, (20, 20))
+            # Bal alsó sötétített háttér panel
+            panel_w, panel_h = 350, 280
+            
+            # Alfa-csatornás transzparencia fekete hatter
+            s_panel = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+            s_panel.fill((0, 0, 0, 200))
+            screen.blit(s_panel, (20, HEIGHT - panel_h - 20))
+            
+            y_cursor = HEIGHT - panel_h - 5
+            
+            if selected_party:
+                party_surf = font_small.render(f"Irányított párt: {selected_party}", True, (255, 230, 100))
+                screen.blit(party_surf, (35, y_cursor))
+                y_cursor += 40
+                
+            pygame.draw.line(screen, (100, 100, 100), (35, y_cursor), (35 + panel_w - 30, y_cursor))
+            y_cursor += 15
+            
+            # Táblázatos UI az Országos Támogatottságról a sötét panelen
+            title_tamu = font_small.render("Országos Bázis (Egyéni):", True, (255, 255, 255))
+            screen.blit(title_tamu, (35, y_cursor))
+            y_cursor += 35
+            
+            # Sorban kiírva a mentett adatok:
+            for p, pct in custom_percentages.items():
+                p_surf = font_small.render(f"{p}", True, (200, 200, 200))
+                v_surf = font_small.render(f"{pct}%", True, (50, 200, 255))
+                screen.blit(p_surf, (35, y_cursor))
+                screen.blit(v_surf, (35 + panel_w - 100, y_cursor))
+                y_cursor += 25
             
         pygame.display.flip()
         clock.tick(60)
