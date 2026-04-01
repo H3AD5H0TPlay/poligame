@@ -1,0 +1,13 @@
+# Poligame - Szerzői Jogok és Forrásmegjelölések (Credits)
+
+A játékban szereplő 106 Országgyűlési Egyéni Választókerület (OEVK) geometriai adatait és határvonalait (Magyarország térkép) 
+teljesen nyílt, a valósággal 100%-ban megegyező NVI (Nemzeti Választási Iroda) GPS adatbázisok alapján használjuk.
+
+A játék a következő Open-Source közreműködők és adatkészletek munkáját használja fel:
+- **gergely-elias/oevk_maps** (GitHub)
+  Hivatalos GeoJSON feldolgozás és karbantartott térképi állományok a választókerületekhez.
+  URL: https://github.com/gergely-elias/oevk_maps
+- A Shapely Python Spatial Analysis Library
+  URL: https://shapely.readthedocs.io/
+
+Köszönjük a nyílt adatokhoz való szabad hozzáférést!
