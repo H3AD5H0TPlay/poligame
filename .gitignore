@@ -11,6 +11,9 @@ __pycache__/
 .vscode/
 .idea/
 
+# Forrásadatok (nyers választási eredmények)
+EP Választás 2024 OEVK Adatok.txt
+
 # KIFEJEZETTEN ENGEDÉLYEZZÜK A JÁTÉKOT TARTALMAZÓ FÁJLT A GYÖKÉRBEN
 # Mivel kérted, hogy egyből a gyökérben legyen a letölthető végleges program.
 !/Poligame.exe
