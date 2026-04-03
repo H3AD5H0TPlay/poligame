@@ -60,6 +60,7 @@ class ElectionSimulator:
             "mandates_oevk": {p: 0 for p in parties},
             "mandates_list": {p: 0 for p in parties},
             "mandates_total": {p: 0 for p in parties},
+            "county_pcts": {},
             "colors": {}
         }
         
@@ -112,6 +113,22 @@ class ElectionSimulator:
             for p in parties:
                 if p != winner:
                     compensation_votes[p] += (norm[p] / 100.0) * OEVK_AVG_VOTERS
+                    
+        # --- 2.5 Megyei összesítés ---
+        county_raw = {}
+        for oevk_name, norm in results["oevk_pcts"].items():
+            county = oevk_name.rsplit(' ', 1)[0]
+            if county not in county_raw:
+                county_raw[county] = {p: 0.0 for p in parties}
+            for p in parties:
+                county_raw[county][p] += norm[p]
+                
+        for county, raw in county_raw.items():
+            total_raw = sum(raw.values())
+            if total_raw > 0:
+                results["county_pcts"][county] = {p: (v / total_raw) * 100.0 for p, v in raw.items()}
+            else:
+                results["county_pcts"][county] = {p: 0.0 for p in parties}
         
         # --- 4. Listás szavazatok összesítése ---
         list_votes = {}

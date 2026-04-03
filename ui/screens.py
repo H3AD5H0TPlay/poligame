@@ -40,9 +40,9 @@ def draw_menu(surface, width, height, btn_play, btn_exit):
     btn_play.draw(surface)
     btn_exit.draw(surface)
     
-    # Verzió / Lore Accurate Note
+    # Verzió
     ver = f['micro'].render(
-        f"v{VERSION}  |  Saját Engine  |  NVI Tényadatok & 21K Módszertan (Lore Accurate)",
+        f"v{VERSION}",
         True, (50, 50, 65)
     )
     surface.blit(ver, ver.get_rect(center=(width//2, height - 25)))
@@ -76,10 +76,7 @@ def draw_scenario_select(surface, width, height, btn_lore, btn_custom):
     
     esc = f['tiny'].render("[ ESC ] Vissza", True, TEXT_MUTED)
     surface.blit(esc, esc.get_rect(center=(width//2, height - 40)))
-    
-    # Lore disclaimer
-    lore_info = f['micro'].render("A Lore (2024 EP) a Választási Földrajz OEVK-szintű tényadatain alapszik.", True, (70, 70, 90))
-    surface.blit(lore_info, lore_info.get_rect(center=(width//2, height - 20)))
+
 
 
 def draw_custom_setup(surface, width, height, input_boxes, btn_start):

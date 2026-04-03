@@ -45,10 +45,20 @@ class MapRenderer:
         self.oevk_colors = {}
         self._county_colors = {}  # Cache: megye többségi szín
         
-        # Hover cache: ne számoljunk minden frame-ben contains()-t
         self._hover_name = None
         self._hover_data = None
+        self._selected_name = None
+        self._selected_data = None
+        self._selected_center = None
         self._last_geo_mouse = None
+        self._drag_moved = False
+        
+        # O(1) hover gyorsítás és 0-lag renderelés: Cache felszínek
+        self._id_surface = pygame.Surface((width, height))
+        self._id_surface.set_colorkey(None) # Nincs alpha
+        self._map_surface = pygame.Surface((width, height))
+        self._view_dirty = True
+        self._last_view_mode = None
         
         # Betűtípusok (lazily cached)
         self._font_tiny = None
@@ -150,6 +160,7 @@ class MapRenderer:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self.is_dragging = True
+                self._drag_moved = False
                 self.last_mouse_pos = event.pos
             elif event.button == 4:
                 self._zoom(1.15, event.pos)
@@ -159,13 +170,27 @@ class MapRenderer:
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 self.is_dragging = False
+                if not self._drag_moved:
+                    # Sima kattintás: kiválasztjuk a hoverelt elemet
+                    self._selected_name = self._hover_name
+                    self._selected_data = self._hover_data
+                    if self._hover_name:
+                        elements = self.oevks if self._last_view_mode else list(self.counties.values())
+                        for e in elements:
+                            if e['name'] == self._hover_name:
+                                self._selected_center = e['geom'].centroid
+                                break
+                    else:
+                        self._selected_center = None
         elif event.type == pygame.MOUSEMOTION:
             if self.is_dragging:
+                self._drag_moved = True
                 dx = event.pos[0] - self.last_mouse_pos[0]
                 dy = event.pos[1] - self.last_mouse_pos[1]
                 self.offset_x += dx
                 self.offset_y += dy
                 self.last_mouse_pos = event.pos
+                # Panningnél NINCS _view_dirty redraw! Tiszta blittelés történik offsettel.
 
     def _zoom(self, factor, pos):
         lon = (pos[0] - self.offset_x) / self.scale + self.min_lon
@@ -173,6 +198,7 @@ class MapRenderer:
         self.scale *= factor
         self.offset_x = pos[0] - (lon - self.min_lon) * self.scale
         self.offset_y = pos[1] - (self.max_lat - lat) * self.scale
+        self._view_dirty = True
 
     def _geo_to_screen(self, lon, lat):
         x = (lon - self.min_lon) * self.scale + self.offset_x
@@ -196,68 +222,128 @@ class MapRenderer:
             for poly in geom.geoms:
                 draw_poly(poly)
 
-    def _update_hover(self, mouse_pos, show_oevk, sim_results):
-        """Hover logika: csak ha az egér VALÓBAN mozdult (> 3px)."""
-        geo_x = (mouse_pos[0] - self.offset_x) / self.scale + self.min_lon
-        geo_y = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
+    def _redraw_cache_surfaces(self, show_oevk):
+        """Kirajzolja a statikus térképet és a láthatatlan ID felszínt PONTOSAN az offszetek nélkül."""
         
-        current = (round(geo_x, 5), round(geo_y, 5))
-        if current == self._last_geo_mouse:
-            return  # Nem mozdult → régi hover marad
-        self._last_geo_mouse = current
+        map_w_px = int((self.max_lon - self.min_lon) * self.scale) + 100
+        map_h_px = int((self.max_lat - self.min_lat) * self.scale) + 100
         
-        self._hover_name = None
-        self._hover_data = None
-        
-        elements = self.oevks if show_oevk else list(self.counties.values())
-        geo_mouse = Point(geo_x, geo_y)
-        
-        for elem in elements:
-            b = elem['bounds']
-            if not (b[0] <= geo_x <= b[2] and b[1] <= geo_y <= b[3]):
-                continue
-            if elem['geom'].contains(geo_mouse):
-                self._hover_name = elem['name']
-                if sim_results and elem['name'] in sim_results.get("oevk_pcts", {}):
-                    self._hover_data = sim_results["oevk_pcts"][elem['name']]
-                break
-
-    def draw(self, surface, mouse_pos, show_oevk=False, sim_results=None):
-        surface.fill((18, 22, 35))
-        
-        # Hover frissítése (csak ha egér mozdult)
-        self._update_hover(mouse_pos, show_oevk, sim_results)
-        
-        elements = self.oevks if show_oevk else list(self.counties.values())
-        
-        for elem in elements:
-            b = elem['bounds']
-            # Screen culling
-            sl, sb = self._geo_to_screen(b[0], b[1])
-            sr, st = self._geo_to_screen(b[2], b[3])
-            if sr < 0 or sl > self.width or sb < 0 or st > self.height:
-                continue
+        if map_w_px > 6000 or map_h_px > 6000:
+            return  # Failsafe extrém zoom memória limit
             
+        self._id_surface = pygame.Surface((map_w_px, map_h_px))
+        self._id_surface.set_colorkey(None)
+        self._id_surface.fill((0, 0, 0))
+        
+        self._map_surface = pygame.Surface((map_w_px, map_h_px))
+        self._map_surface.fill((18, 22, 35))
+        self._map_surface.set_colorkey((18, 22, 35))
+        
+        elements = self.oevks if show_oevk else list(self.counties.values())
+        s = self.scale
+        mlon, mlat = self.min_lon, self.max_lat
+        
+        for idx, elem in enumerate(elements):
+            idx_color = (idx + 1, 0, 0)
+            geom = elem['geom']
             name = elem['name']
             
-            # Szín meghatározás (cached county color vs oevk color)
             if show_oevk:
                 base_color = self.oevk_colors.get(name, DEFAULT_MAP_COLOR)
             else:
                 base_color = self._county_colors.get(name, (40, 55, 50))
             
-            if name == self._hover_name:
-                fill = tuple(min(255, c + 35) for c in base_color)
-            else:
-                fill = base_color
-            
             border = (180, 180, 180) if not show_oevk else (80, 80, 80)
             bw = 2 if not show_oevk else 1
-            self._draw_geom(surface, elem['geom'], fill, border, bw)
+            
+            def draw_poly(poly):
+                coords = [((x - mlon) * s, (mlat - y) * s) 
+                          for x, y in poly.exterior.coords]
+                if len(coords) > 2:
+                    pygame.draw.polygon(self._id_surface, idx_color, coords)
+                    pygame.draw.polygon(self._map_surface, base_color, coords)
+                    pygame.draw.lines(self._map_surface, border, True, coords, bw)
+            
+            if geom.geom_type == 'Polygon':
+                draw_poly(geom)
+            elif geom.geom_type == 'MultiPolygon':
+                for poly in geom.geoms:
+                    draw_poly(poly)
+
+    def _update_hover(self, mouse_pos, show_oevk, sim_results):
+        """Pixel-tökéletes hover, figyelembe véve a pannelséget."""
+        self._hover_name = None
+        self._hover_data = None
         
-        # Tooltip
+        # Átszámítjuk az egér pozícióját aszerint, ahová a felszínt is blit-eljük
+        idx_x = int(mouse_pos[0] - self.offset_x)
+        idx_y = int(mouse_pos[1] - self.offset_y)
+        
+        if not (0 <= idx_x < self._id_surface.get_width() and 0 <= idx_y < self._id_surface.get_height()):
+            return
+            
+        color = self._id_surface.get_at((idx_x, idx_y))
+        idx = color[0] - 1
+        
+        elements = self.oevks if show_oevk else list(self.counties.values())
+        if 0 <= idx < len(elements):
+            name = elements[idx]['name']
+            self._hover_name = name
+            if sim_results:
+                target_dict = sim_results.get("oevk_pcts", {}) if show_oevk else sim_results.get("county_pcts", {})
+                if name in target_dict:
+                    self._hover_data = target_dict[name]
+
+    def draw(self, surface, mouse_pos, show_oevk=False, sim_results=None):
+        if self._view_dirty or show_oevk != self._last_view_mode:
+            self._redraw_cache_surfaces(show_oevk)
+            self._view_dirty = False
+            self._last_view_mode = show_oevk
+            
+        surface.fill((18, 22, 35))
+        
+        # O(1) háttér renderelés eltolással (így drag esetén nem kell frissíteni!)
+        surface.blit(self._map_surface, (self.offset_x, self.offset_y))
+        
+        # Hover frissítése
+        self._update_hover(mouse_pos, show_oevk, sim_results)
+        
+        elements = self.oevks if show_oevk else list(self.counties.values())
+        
+        # O(1) redraw ONLY the single hovered polygon with a glow effect
         if self._hover_name:
-            self._draw_tooltip(surface, mouse_pos, self._hover_name, self._hover_data)
+            for elem in elements:
+                if elem['name'] == self._hover_name:
+                    name = elem['name']
+                    if show_oevk:
+                        base_color = self.oevk_colors.get(name, DEFAULT_MAP_COLOR)
+                    else:
+                        base_color = self._county_colors.get(name, (40, 55, 50))
+                    
+                    fill = tuple(min(255, c + 35) for c in base_color)
+                    border = (180, 180, 180) if not show_oevk else (80, 80, 80)
+                    bw = 2 if not show_oevk else 1
+                    
+                    def draw_glow(poly):
+                        # A glow renderelése a surface-re megy (pozícionálással)
+                        coords = [((x - self.min_lon) * self.scale + self.offset_x, 
+                                   (self.max_lat - y) * self.scale + self.offset_y) 
+                                  for x, y in poly.exterior.coords]
+                        if len(coords) > 2:
+                            pygame.draw.polygon(surface, fill, coords)
+                            pygame.draw.lines(surface, border, True, coords, bw)
+                    
+                    if elem['geom'].geom_type == 'Polygon':
+                        draw_glow(elem['geom'])
+                    elif elem['geom'].geom_type == 'MultiPolygon':
+                        for poly in elem['geom'].geoms:
+                            draw_glow(poly)
+                    break
+        
+        # Kiválasztott elem infó panelje (ha kattintott), a Vármegye / OEVK földrajzi közepén!
+        if self._selected_name and self._selected_center:
+            cx, cy = self._geo_to_screen(self._selected_center.x, self._selected_center.y)
+            self._draw_tooltip(surface, (cx, cy), self._selected_name, self._selected_data)
 
     def _draw_tooltip(self, surface, pos, name, data):
         lines = [name]
@@ -270,6 +356,7 @@ class MapRenderer:
         max_w = max(self.font_small.size(l)[0] for l in lines) + 20
         h = len(lines) * 26 + 10
         
+        # Tooltip a kattintás pozíciója felett
         tx = min(pos[0] + 15, self.width - max_w - 10)
         ty = max(pos[1] - h - 10, 10)
         
