@@ -7,7 +7,6 @@ Shapely GIS geometriával és Pygame rajzolással.
 - Megye összevonás
 - Dinamikus zoom/pan kamera
 - Screen culling optimalizáció
-- OEVK/Megye nézetváltás zoom szint alapján
 - Tooltip a hovered területhez
 """
 
@@ -44,6 +43,12 @@ class MapRenderer:
         
         # Szimuláció színek
         self.oevk_colors = {}
+        self._county_colors = {}  # Cache: megye többségi szín
+        
+        # Hover cache: ne számoljunk minden frame-ben contains()-t
+        self._hover_name = None
+        self._hover_data = None
+        self._last_geo_mouse = None
         
         # Betűtípusok (lazily cached)
         self._font_tiny = None
@@ -65,15 +70,29 @@ class MapRenderer:
         return self._font_small
 
     def set_colors(self, colors_dict):
-        """Beállítja az OEVK-k színeit a szimuláció eredményéből."""
+        """Beállítja az OEVK-k színeit. Pre-computálja a megye színeket is."""
         self.oevk_colors = colors_dict
+        self._compute_county_colors()
+
+    def _compute_county_colors(self):
+        """A megye többségi színét előre kiszámítja (nem kell frame-enként)."""
+        self._county_colors = {}
+        for county_name in self.counties:
+            county_oevk_colors = [
+                self.oevk_colors.get(o['name'], DEFAULT_MAP_COLOR)
+                for o in self.oevks if o['county'] == county_name
+            ]
+            if county_oevk_colors:
+                self._county_colors[county_name] = Counter(county_oevk_colors).most_common(1)[0][0]
+            else:
+                self._county_colors[county_name] = (40, 55, 50)
 
     def _load(self, callback=None):
         with open(GEOJSON_PATH, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
         county_polygons = {}
-        lon_ratio = math.cos(math.radians(47.16))  # Magyarország közepén
+        lon_ratio = math.cos(math.radians(47.16))
         total = len(data['features'])
 
         for idx, feature in enumerate(data['features']):
@@ -88,22 +107,29 @@ class MapRenderer:
             name = feature['properties']['name']
             county = name.rsplit(' ', 1)[0]
             
-            minx, miny, maxx, maxy = geom.bounds
-            self.min_lon = min(self.min_lon, minx)
-            self.max_lon = max(self.max_lon, maxx)
-            self.min_lat = min(self.min_lat, miny)
-            self.max_lat = max(self.max_lat, maxy)
+            bounds = geom.bounds
+            self.min_lon = min(self.min_lon, bounds[0])
+            self.max_lon = max(self.max_lon, bounds[2])
+            self.min_lat = min(self.min_lat, bounds[1])
+            self.max_lat = max(self.max_lat, bounds[3])
 
-            self.oevks.append({"name": name, "county": county, "geom": geom})
+            self.oevks.append({
+                "name": name,
+                "county": county,
+                "geom": geom,
+                "bounds": bounds,
+            })
 
             if county not in county_polygons:
                 county_polygons[county] = []
             county_polygons[county].append(geom)
 
         for county, polys in county_polygons.items():
+            merged = unary_union(polys)
             self.counties[county] = {
                 "name": county,
-                "geom": unary_union(polys)
+                "geom": merged,
+                "bounds": merged.bounds,
             }
 
     def _center(self):
@@ -111,18 +137,14 @@ class MapRenderer:
         map_h = self.max_lat - self.min_lat
         if map_w == 0 or map_h == 0:
             return
-
         sx = (self.width * 0.9) / map_w
         sy = (self.height * 0.9) / map_h
         self.base_scale = min(sx, sy)
         self.scale = self.base_scale
-
         cx = (self.min_lon + self.max_lon) / 2
         cy = (self.min_lat + self.max_lat) / 2
         self.offset_x = self.width / 2 - (cx - self.min_lon) * self.scale
         self.offset_y = self.height / 2 - (self.max_lat - cy) * self.scale
-
-    # --- Kamera Kezelés ---
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -157,8 +179,6 @@ class MapRenderer:
         y = (self.max_lat - lat) * self.scale + self.offset_y
         return x, y
 
-    # --- Rajzolás ---
-
     def _draw_geom(self, surface, geom, fill, border, bw):
         s, ox, oy = self.scale, self.offset_x, self.offset_y
         mlon, mlat = self.min_lon, self.max_lat
@@ -176,63 +196,68 @@ class MapRenderer:
             for poly in geom.geoms:
                 draw_poly(poly)
 
+    def _update_hover(self, mouse_pos, show_oevk, sim_results):
+        """Hover logika: csak ha az egér VALÓBAN mozdult (> 3px)."""
+        geo_x = (mouse_pos[0] - self.offset_x) / self.scale + self.min_lon
+        geo_y = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
+        
+        current = (round(geo_x, 5), round(geo_y, 5))
+        if current == self._last_geo_mouse:
+            return  # Nem mozdult → régi hover marad
+        self._last_geo_mouse = current
+        
+        self._hover_name = None
+        self._hover_data = None
+        
+        elements = self.oevks if show_oevk else list(self.counties.values())
+        geo_mouse = Point(geo_x, geo_y)
+        
+        for elem in elements:
+            b = elem['bounds']
+            if not (b[0] <= geo_x <= b[2] and b[1] <= geo_y <= b[3]):
+                continue
+            if elem['geom'].contains(geo_mouse):
+                self._hover_name = elem['name']
+                if sim_results and elem['name'] in sim_results.get("oevk_pcts", {}):
+                    self._hover_data = sim_results["oevk_pcts"][elem['name']]
+                break
+
     def draw(self, surface, mouse_pos, show_oevk=False, sim_results=None):
         surface.fill((18, 22, 35))
         
-        hovered_name = None
-        hovered_data = None
-        
-        geo_x = (mouse_pos[0] - self.offset_x) / self.scale + self.min_lon
-        geo_y = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
-        geo_mouse = Point(geo_x, geo_y)
+        # Hover frissítése (csak ha egér mozdult)
+        self._update_hover(mouse_pos, show_oevk, sim_results)
         
         elements = self.oevks if show_oevk else list(self.counties.values())
         
         for elem in elements:
-            geom = elem['geom']
-            minx, miny, maxx, maxy = geom.bounds
-            
+            b = elem['bounds']
             # Screen culling
-            sl, sb = self._geo_to_screen(minx, miny)
-            sr, st = self._geo_to_screen(maxx, maxy)
+            sl, sb = self._geo_to_screen(b[0], b[1])
+            sr, st = self._geo_to_screen(b[2], b[3])
             if sr < 0 or sl > self.width or sb < 0 or st > self.height:
                 continue
             
-            # Hover check
-            is_hovered = False
-            if minx <= geo_x <= maxx and miny <= geo_y <= maxy:
-                if geom.contains(geo_mouse):
-                    is_hovered = True
+            name = elem['name']
             
-            # Színezés
+            # Szín meghatározás (cached county color vs oevk color)
             if show_oevk:
-                base_color = self.oevk_colors.get(elem['name'], DEFAULT_MAP_COLOR)
+                base_color = self.oevk_colors.get(name, DEFAULT_MAP_COLOR)
             else:
-                county_name = elem['name']
-                county_oevk_colors = [
-                    self.oevk_colors.get(o['name'], DEFAULT_MAP_COLOR)
-                    for o in self.oevks if o['county'] == county_name
-                ]
-                if county_oevk_colors:
-                    base_color = Counter(county_oevk_colors).most_common(1)[0][0]
-                else:
-                    base_color = (40, 55, 50)
+                base_color = self._county_colors.get(name, (40, 55, 50))
             
-            if is_hovered:
-                hovered_name = elem['name']
-                if sim_results and elem['name'] in sim_results.get("oevk_pcts", {}):
-                    hovered_data = sim_results["oevk_pcts"][elem['name']]
+            if name == self._hover_name:
                 fill = tuple(min(255, c + 35) for c in base_color)
             else:
                 fill = base_color
             
             border = (180, 180, 180) if not show_oevk else (80, 80, 80)
             bw = 2 if not show_oevk else 1
-            self._draw_geom(surface, geom, fill, border, bw)
+            self._draw_geom(surface, elem['geom'], fill, border, bw)
         
         # Tooltip
-        if hovered_name:
-            self._draw_tooltip(surface, mouse_pos, hovered_name, hovered_data)
+        if self._hover_name:
+            self._draw_tooltip(surface, mouse_pos, self._hover_name, self._hover_data)
 
     def _draw_tooltip(self, surface, pos, name, data):
         lines = [name]

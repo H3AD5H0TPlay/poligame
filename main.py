@@ -132,9 +132,11 @@ def main():
     
     btn_start = Button(WIDTH//2 - 160, HEIGHT//2 + 280, 320, 60, "Szimuláció Indítása", "gold")
     
-    # OEVK toggle gomb (bal alsó, a HUD panel felett)
-    font_toggle = pygame.font.SysFont("Segoe UI", 16, bold=True)
-    toggle_rect = pygame.Rect(15, 0, 180, 34)  # y-t renderkor számoljuk
+    # OEVK toggle gomb (jobb alsó, kicsi négyzet ikon)
+    font_toggle_icon = pygame.font.SysFont("Segoe UI", 20, bold=True)
+    font_toggle_tip = pygame.font.SysFont("Segoe UI", 14)
+    toggle_size = 36
+    toggle_rect = pygame.Rect(WIDTH - toggle_size - 15, HEIGHT - toggle_size - 15, toggle_size, toggle_size)
     
     font_esc = pygame.font.SysFont("Segoe UI", 14)
     
@@ -237,17 +239,43 @@ def main():
             map_engine.draw(screen, mouse_pos, show_oevk=show_oevk, sim_results=sim_results)
             draw_hud(screen, WIDTH, HEIGHT, PARTIES, custom_percentages, sim_results, selected_party)
             
-            # OEVK/Megye toggle gomb
-            toggle_rect.y = HEIGHT - 320 - 15 - 44  # HUD panel teteje felett
+            # OEVK toggle gomb (jobb alsó négyzet ikon)
             is_toggle_hovered = toggle_rect.collidepoint(mouse_pos)
-            toggle_bg = (50, 90, 50) if show_oevk else (45, 55, 75)
+            bg = (45, 55, 75) if not is_toggle_hovered else (60, 75, 100)
+            pygame.draw.rect(screen, bg, toggle_rect, border_radius=5)
+            pygame.draw.rect(screen, (90, 90, 110), toggle_rect, 2, border_radius=5)
+            
+            # Grid ikon (4 kis négyzet = OEVK szimbólum)
+            gx, gy = toggle_rect.x + 8, toggle_rect.y + 8
+            gs = 8
+            gg = 3
+            for r in range(2):
+                for c in range(2):
+                    pygame.draw.rect(screen, (160, 170, 190),
+                                     (gx + c*(gs+gg), gy + r*(gs+gg), gs, gs), border_radius=1)
+            
+            # Piros X vagy Zöld Pipa a jobb alsó sarkában
+            ix, iy = toggle_rect.right - 10, toggle_rect.bottom - 10
+            if show_oevk:
+                # Zöld pipa
+                pygame.draw.line(screen, (50, 220, 50), (ix-6, iy-1), (ix-3, iy+3), 2)
+                pygame.draw.line(screen, (50, 220, 50), (ix-3, iy+3), (ix+3, iy-5), 2)
+            else:
+                # Piros X
+                pygame.draw.line(screen, (220, 50, 50), (ix-4, iy-4), (ix+3, iy+3), 2)
+                pygame.draw.line(screen, (220, 50, 50), (ix+3, iy-4), (ix-4, iy+3), 2)
+            
+            # Hover tooltip
             if is_toggle_hovered:
-                toggle_bg = tuple(min(255, c + 20) for c in toggle_bg)
-            pygame.draw.rect(screen, toggle_bg, toggle_rect, border_radius=5)
-            pygame.draw.rect(screen, (200, 170, 60) if show_oevk else (80, 80, 100), toggle_rect, 2, border_radius=5)
-            toggle_label = "OEVK nézet: BE" if show_oevk else "OEVK nézet: KI"
-            toggle_txt = font_toggle.render(toggle_label, True, (255, 255, 255))
-            screen.blit(toggle_txt, toggle_txt.get_rect(center=toggle_rect.center))
+                tip_text = "OEVK nézet BE" if not show_oevk else "OEVK nézet KI"
+                tip_surf = font_toggle_tip.render(tip_text, True, (220, 220, 230))
+                tip_w = tip_surf.get_width() + 16
+                tip_h = 26
+                tip_bg = pygame.Surface((tip_w, tip_h), pygame.SRCALPHA)
+                tip_bg.fill((10, 10, 20, 220))
+                pygame.draw.rect(tip_bg, (80, 80, 100), (0, 0, tip_w, tip_h), 1, border_radius=3)
+                tip_bg.blit(tip_surf, (8, 4))
+                screen.blit(tip_bg, (toggle_rect.x - tip_w - 8, toggle_rect.y + 5))
             
             esc_hint = font_esc.render("[ ESC ] Főmenü", True, (80, 80, 100))
             screen.blit(esc_hint, (WIDTH - 120, 10))

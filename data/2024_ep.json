@@ -7,138 +7,26 @@
     "MKKP": 3.59
   },
   "ep_oevk_2024": {
-    "Budapest 01": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 02": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 03": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 04": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 05": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 06": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 07": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 08": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 09": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 10": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 11": {
-      "Fidesz": 30.1,
-      "Tisza": 39.5,
-      "DK": 10.2,
-      "Mi Hazánk": 3.5,
-      "MKKP": 8.4
-    },
-    "Budapest 12": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 13": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 14": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 15": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
-    "Budapest 16": {
-      "Fidesz": 33.12,
-      "Tisza": 32.81,
-      "DK": 12.3,
-      "Mi Hazánk": 4.46,
-      "MKKP": 5.92
-    },
     "Baranya 01": {
-      "Fidesz": 46.59,
-      "Tisza": 27.14,
-      "DK": 9.39,
-      "Mi Hazánk": 6.31,
-      "MKKP": 3.6
+      "Fidesz": 35.59,
+      "Tisza": 34.84,
+      "DK": 10.49,
+      "Mi Hazánk": 4.66,
+      "MKKP": 4.15
     },
     "Baranya 02": {
-      "Fidesz": 46.59,
-      "Tisza": 27.14,
-      "DK": 9.39,
-      "Mi Hazánk": 6.31,
-      "MKKP": 3.6
+      "Fidesz": 42.92,
+      "Tisza": 29.71,
+      "DK": 9.76,
+      "Mi Hazánk": 5.76,
+      "MKKP": 3.78
     },
     "Baranya 03": {
-      "Fidesz": 46.59,
-      "Tisza": 27.14,
-      "DK": 9.39,
-      "Mi Hazánk": 6.31,
-      "MKKP": 3.6
+      "Fidesz": 50.26,
+      "Tisza": 24.57,
+      "DK": 9.02,
+      "Mi Hazánk": 6.86,
+      "MKKP": 3.42
     },
     "Baranya 04": {
       "Fidesz": 63.0,
@@ -147,89 +35,19 @@
       "Mi Hazánk": 8.0,
       "MKKP": 2.0
     },
-    "Bács-Kiskun 01": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Bács-Kiskun 02": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Bács-Kiskun 03": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Bács-Kiskun 04": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Bács-Kiskun 05": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Bács-Kiskun 06": {
-      "Fidesz": 48.36,
-      "Tisza": 28.6,
-      "DK": 6.25,
-      "Mi Hazánk": 8.66,
-      "MKKP": 2.91
-    },
-    "Békés 01": {
-      "Fidesz": 45.57,
-      "Tisza": 29.82,
-      "DK": 7.23,
-      "Mi Hazánk": 8.67,
-      "MKKP": 2.63
-    },
-    "Békés 02": {
-      "Fidesz": 45.57,
-      "Tisza": 29.82,
-      "DK": 7.23,
-      "Mi Hazánk": 8.67,
-      "MKKP": 2.63
-    },
-    "Békés 03": {
-      "Fidesz": 45.57,
-      "Tisza": 29.82,
-      "DK": 7.23,
-      "Mi Hazánk": 8.67,
-      "MKKP": 2.63
-    },
-    "Békés 04": {
-      "Fidesz": 45.57,
-      "Tisza": 29.82,
-      "DK": 7.23,
-      "Mi Hazánk": 8.67,
-      "MKKP": 2.63
-    },
     "Borsod-Abaúj-Zemplén 01": {
-      "Fidesz": 48.77,
-      "Tisza": 27.3,
-      "DK": 7.97,
-      "Mi Hazánk": 7.57,
-      "MKKP": 2.32
+      "Fidesz": 37.77,
+      "Tisza": 35.0,
+      "DK": 9.07,
+      "Mi Hazánk": 5.92,
+      "MKKP": 2.87
     },
     "Borsod-Abaúj-Zemplén 02": {
-      "Fidesz": 48.77,
-      "Tisza": 27.3,
-      "DK": 7.97,
-      "Mi Hazánk": 7.57,
-      "MKKP": 2.32
+      "Fidesz": 41.44,
+      "Tisza": 32.43,
+      "DK": 8.7,
+      "Mi Hazánk": 6.47,
+      "MKKP": 2.69
     },
     "Borsod-Abaúj-Zemplén 03": {
       "Fidesz": 55.0,
@@ -246,67 +64,249 @@
       "MKKP": 2.0
     },
     "Borsod-Abaúj-Zemplén 05": {
-      "Fidesz": 48.77,
-      "Tisza": 27.3,
-      "DK": 7.97,
-      "Mi Hazánk": 7.57,
-      "MKKP": 2.32
+      "Fidesz": 52.44,
+      "Tisza": 24.73,
+      "DK": 7.6,
+      "Mi Hazánk": 8.12,
+      "MKKP": 2.14
     },
     "Borsod-Abaúj-Zemplén 06": {
-      "Fidesz": 48.77,
-      "Tisza": 27.3,
-      "DK": 7.97,
-      "Mi Hazánk": 7.57,
-      "MKKP": 2.32
+      "Fidesz": 56.1,
+      "Tisza": 22.17,
+      "DK": 7.24,
+      "Mi Hazánk": 8.67,
+      "MKKP": 1.95
     },
     "Borsod-Abaúj-Zemplén 07": {
-      "Fidesz": 48.77,
-      "Tisza": 27.3,
-      "DK": 7.97,
-      "Mi Hazánk": 7.57,
-      "MKKP": 2.32
+      "Fidesz": 59.77,
+      "Tisza": 19.6,
+      "DK": 6.87,
+      "Mi Hazánk": 9.22,
+      "MKKP": 1.77
+    },
+    "Budapest 01": {
+      "Fidesz": 22.12,
+      "Tisza": 40.51,
+      "DK": 13.4,
+      "Mi Hazánk": 2.81,
+      "MKKP": 6.47
+    },
+    "Budapest 02": {
+      "Fidesz": 23.59,
+      "Tisza": 39.48,
+      "DK": 13.25,
+      "Mi Hazánk": 3.03,
+      "MKKP": 6.4
+    },
+    "Budapest 03": {
+      "Fidesz": 25.05,
+      "Tisza": 38.46,
+      "DK": 13.11,
+      "Mi Hazánk": 3.25,
+      "MKKP": 6.32
+    },
+    "Budapest 04": {
+      "Fidesz": 26.52,
+      "Tisza": 37.43,
+      "DK": 12.96,
+      "Mi Hazánk": 3.47,
+      "MKKP": 6.25
+    },
+    "Budapest 05": {
+      "Fidesz": 27.99,
+      "Tisza": 36.4,
+      "DK": 12.81,
+      "Mi Hazánk": 3.69,
+      "MKKP": 6.18
+    },
+    "Budapest 06": {
+      "Fidesz": 29.45,
+      "Tisza": 35.38,
+      "DK": 12.67,
+      "Mi Hazánk": 3.91,
+      "MKKP": 6.1
+    },
+    "Budapest 07": {
+      "Fidesz": 30.92,
+      "Tisza": 34.35,
+      "DK": 12.52,
+      "Mi Hazánk": 4.13,
+      "MKKP": 6.03
+    },
+    "Budapest 08": {
+      "Fidesz": 32.39,
+      "Tisza": 33.32,
+      "DK": 12.37,
+      "Mi Hazánk": 4.35,
+      "MKKP": 5.96
+    },
+    "Budapest 09": {
+      "Fidesz": 33.85,
+      "Tisza": 32.3,
+      "DK": 12.23,
+      "Mi Hazánk": 4.57,
+      "MKKP": 5.88
+    },
+    "Budapest 10": {
+      "Fidesz": 35.32,
+      "Tisza": 31.27,
+      "DK": 12.08,
+      "Mi Hazánk": 4.79,
+      "MKKP": 5.81
+    },
+    "Budapest 11": {
+      "Fidesz": 30.1,
+      "Tisza": 39.5,
+      "DK": 10.2,
+      "Mi Hazánk": 3.5,
+      "MKKP": 8.4
+    },
+    "Budapest 12": {
+      "Fidesz": 38.25,
+      "Tisza": 29.22,
+      "DK": 11.79,
+      "Mi Hazánk": 5.23,
+      "MKKP": 5.66
+    },
+    "Budapest 13": {
+      "Fidesz": 39.72,
+      "Tisza": 28.19,
+      "DK": 11.64,
+      "Mi Hazánk": 5.45,
+      "MKKP": 5.59
+    },
+    "Budapest 14": {
+      "Fidesz": 41.19,
+      "Tisza": 27.16,
+      "DK": 11.49,
+      "Mi Hazánk": 5.67,
+      "MKKP": 5.52
+    },
+    "Budapest 15": {
+      "Fidesz": 42.65,
+      "Tisza": 26.14,
+      "DK": 11.35,
+      "Mi Hazánk": 5.89,
+      "MKKP": 5.44
+    },
+    "Budapest 16": {
+      "Fidesz": 44.12,
+      "Tisza": 25.11,
+      "DK": 11.2,
+      "Mi Hazánk": 6.11,
+      "MKKP": 5.37
+    },
+    "Bács-Kiskun 01": {
+      "Fidesz": 37.36,
+      "Tisza": 36.3,
+      "DK": 7.35,
+      "Mi Hazánk": 7.01,
+      "MKKP": 3.46
+    },
+    "Bács-Kiskun 02": {
+      "Fidesz": 41.76,
+      "Tisza": 33.22,
+      "DK": 6.91,
+      "Mi Hazánk": 7.67,
+      "MKKP": 3.24
+    },
+    "Bács-Kiskun 03": {
+      "Fidesz": 46.16,
+      "Tisza": 30.14,
+      "DK": 6.47,
+      "Mi Hazánk": 8.33,
+      "MKKP": 3.02
+    },
+    "Bács-Kiskun 04": {
+      "Fidesz": 50.56,
+      "Tisza": 27.06,
+      "DK": 6.03,
+      "Mi Hazánk": 8.99,
+      "MKKP": 2.8
+    },
+    "Bács-Kiskun 05": {
+      "Fidesz": 54.96,
+      "Tisza": 23.98,
+      "DK": 5.59,
+      "Mi Hazánk": 9.65,
+      "MKKP": 2.58
+    },
+    "Bács-Kiskun 06": {
+      "Fidesz": 59.36,
+      "Tisza": 20.9,
+      "DK": 5.15,
+      "Mi Hazánk": 10.31,
+      "MKKP": 2.36
+    },
+    "Békés 01": {
+      "Fidesz": 34.57,
+      "Tisza": 37.52,
+      "DK": 8.33,
+      "Mi Hazánk": 7.02,
+      "MKKP": 3.18
+    },
+    "Békés 02": {
+      "Fidesz": 41.9,
+      "Tisza": 32.39,
+      "DK": 7.6,
+      "Mi Hazánk": 8.12,
+      "MKKP": 2.81
+    },
+    "Békés 03": {
+      "Fidesz": 49.24,
+      "Tisza": 27.25,
+      "DK": 6.86,
+      "Mi Hazánk": 9.22,
+      "MKKP": 2.45
+    },
+    "Békés 04": {
+      "Fidesz": 56.57,
+      "Tisza": 22.12,
+      "DK": 6.13,
+      "Mi Hazánk": 10.32,
+      "MKKP": 2.08
     },
     "Csongrád-Csanád 01": {
-      "Fidesz": 38.32,
-      "Tisza": 31.71,
-      "DK": 7.84,
-      "Mi Hazánk": 8.52,
-      "MKKP": 4.03
+      "Fidesz": 27.32,
+      "Tisza": 39.41,
+      "DK": 8.94,
+      "Mi Hazánk": 6.87,
+      "MKKP": 4.58
     },
     "Csongrád-Csanád 02": {
-      "Fidesz": 38.32,
-      "Tisza": 31.71,
-      "DK": 7.84,
-      "Mi Hazánk": 8.52,
-      "MKKP": 4.03
+      "Fidesz": 34.65,
+      "Tisza": 34.28,
+      "DK": 8.21,
+      "Mi Hazánk": 7.97,
+      "MKKP": 4.21
     },
     "Csongrád-Csanád 03": {
-      "Fidesz": 38.32,
-      "Tisza": 31.71,
-      "DK": 7.84,
-      "Mi Hazánk": 8.52,
-      "MKKP": 4.03
+      "Fidesz": 41.99,
+      "Tisza": 29.14,
+      "DK": 7.47,
+      "Mi Hazánk": 9.07,
+      "MKKP": 3.85
     },
     "Csongrád-Csanád 04": {
-      "Fidesz": 38.32,
-      "Tisza": 31.71,
-      "DK": 7.84,
-      "Mi Hazánk": 8.52,
-      "MKKP": 4.03
+      "Fidesz": 49.32,
+      "Tisza": 24.01,
+      "DK": 6.74,
+      "Mi Hazánk": 10.17,
+      "MKKP": 3.48
     },
     "Fejér 01": {
-      "Fidesz": 45.88,
-      "Tisza": 29.21,
-      "DK": 7.14,
-      "Mi Hazánk": 7.42,
-      "MKKP": 3.83
+      "Fidesz": 34.88,
+      "Tisza": 36.91,
+      "DK": 8.24,
+      "Mi Hazánk": 5.77,
+      "MKKP": 4.38
     },
     "Fejér 02": {
-      "Fidesz": 45.88,
-      "Tisza": 29.21,
-      "DK": 7.14,
-      "Mi Hazánk": 7.42,
-      "MKKP": 3.83
+      "Fidesz": 40.38,
+      "Tisza": 33.06,
+      "DK": 7.69,
+      "Mi Hazánk": 6.59,
+      "MKKP": 4.11
     },
     "Fejér 03": {
       "Fidesz": 45.88,
@@ -316,25 +316,25 @@
       "MKKP": 3.83
     },
     "Fejér 04": {
-      "Fidesz": 45.88,
-      "Tisza": 29.21,
-      "DK": 7.14,
-      "Mi Hazánk": 7.42,
-      "MKKP": 3.83
+      "Fidesz": 51.38,
+      "Tisza": 25.36,
+      "DK": 6.59,
+      "Mi Hazánk": 8.24,
+      "MKKP": 3.56
     },
     "Fejér 05": {
-      "Fidesz": 45.88,
-      "Tisza": 29.21,
-      "DK": 7.14,
-      "Mi Hazánk": 7.42,
-      "MKKP": 3.83
+      "Fidesz": 56.88,
+      "Tisza": 21.51,
+      "DK": 6.04,
+      "Mi Hazánk": 9.07,
+      "MKKP": 3.28
     },
     "Győr-Moson-Sopron 01": {
-      "Fidesz": 48.02,
-      "Tisza": 30.55,
-      "DK": 5.97,
-      "Mi Hazánk": 6.58,
-      "MKKP": 3.07
+      "Fidesz": 37.02,
+      "Tisza": 38.25,
+      "DK": 7.07,
+      "Mi Hazánk": 4.93,
+      "MKKP": 3.62
     },
     "Győr-Moson-Sopron 02": {
       "Fidesz": 43.5,
@@ -351,53 +351,53 @@
       "MKKP": 3.07
     },
     "Győr-Moson-Sopron 04": {
-      "Fidesz": 48.02,
-      "Tisza": 30.55,
-      "DK": 5.97,
-      "Mi Hazánk": 6.58,
-      "MKKP": 3.07
+      "Fidesz": 53.52,
+      "Tisza": 26.7,
+      "DK": 5.42,
+      "Mi Hazánk": 7.41,
+      "MKKP": 2.79
     },
     "Győr-Moson-Sopron 05": {
-      "Fidesz": 48.02,
-      "Tisza": 30.55,
-      "DK": 5.97,
-      "Mi Hazánk": 6.58,
-      "MKKP": 3.07
+      "Fidesz": 59.02,
+      "Tisza": 22.85,
+      "DK": 4.87,
+      "Mi Hazánk": 8.23,
+      "MKKP": 2.52
     },
     "Hajdú-Bihar 01": {
-      "Fidesz": 48.13,
-      "Tisza": 30.28,
-      "DK": 5.89,
-      "Mi Hazánk": 7.46,
-      "MKKP": 2.54
+      "Fidesz": 37.13,
+      "Tisza": 37.98,
+      "DK": 6.99,
+      "Mi Hazánk": 5.81,
+      "MKKP": 3.09
     },
     "Hajdú-Bihar 02": {
-      "Fidesz": 48.13,
-      "Tisza": 30.28,
-      "DK": 5.89,
-      "Mi Hazánk": 7.46,
-      "MKKP": 2.54
+      "Fidesz": 41.53,
+      "Tisza": 34.9,
+      "DK": 6.55,
+      "Mi Hazánk": 6.47,
+      "MKKP": 2.87
     },
     "Hajdú-Bihar 03": {
-      "Fidesz": 48.13,
-      "Tisza": 30.28,
-      "DK": 5.89,
-      "Mi Hazánk": 7.46,
-      "MKKP": 2.54
+      "Fidesz": 45.93,
+      "Tisza": 31.82,
+      "DK": 6.11,
+      "Mi Hazánk": 7.13,
+      "MKKP": 2.65
     },
     "Hajdú-Bihar 04": {
-      "Fidesz": 48.13,
-      "Tisza": 30.28,
-      "DK": 5.89,
-      "Mi Hazánk": 7.46,
-      "MKKP": 2.54
+      "Fidesz": 50.33,
+      "Tisza": 28.74,
+      "DK": 5.67,
+      "Mi Hazánk": 7.79,
+      "MKKP": 2.43
     },
     "Hajdú-Bihar 05": {
-      "Fidesz": 48.13,
-      "Tisza": 30.28,
-      "DK": 5.89,
-      "Mi Hazánk": 7.46,
-      "MKKP": 2.54
+      "Fidesz": 54.73,
+      "Tisza": 25.66,
+      "DK": 5.23,
+      "Mi Hazánk": 8.45,
+      "MKKP": 2.21
     },
     "Hajdú-Bihar 06": {
       "Fidesz": 48.4,
@@ -407,11 +407,11 @@
       "MKKP": 2.9
     },
     "Heves 01": {
-      "Fidesz": 47.13,
-      "Tisza": 28.74,
-      "DK": 7.41,
-      "Mi Hazánk": 7.34,
-      "MKKP": 2.42
+      "Fidesz": 36.13,
+      "Tisza": 36.44,
+      "DK": 8.51,
+      "Mi Hazánk": 5.69,
+      "MKKP": 2.97
     },
     "Heves 02": {
       "Fidesz": 47.13,
@@ -421,46 +421,46 @@
       "MKKP": 2.42
     },
     "Heves 03": {
-      "Fidesz": 47.13,
-      "Tisza": 28.74,
-      "DK": 7.41,
-      "Mi Hazánk": 7.34,
-      "MKKP": 2.42
+      "Fidesz": 58.13,
+      "Tisza": 21.04,
+      "DK": 6.31,
+      "Mi Hazánk": 8.99,
+      "MKKP": 1.87
     },
     "Jász-Nagykun-Szolnok 01": {
-      "Fidesz": 47.16,
-      "Tisza": 29.69,
-      "DK": 7.21,
-      "Mi Hazánk": 6.91,
-      "MKKP": 2.23
+      "Fidesz": 36.16,
+      "Tisza": 37.39,
+      "DK": 8.31,
+      "Mi Hazánk": 5.26,
+      "MKKP": 2.78
     },
     "Jász-Nagykun-Szolnok 02": {
-      "Fidesz": 47.16,
-      "Tisza": 29.69,
-      "DK": 7.21,
-      "Mi Hazánk": 6.91,
-      "MKKP": 2.23
+      "Fidesz": 43.49,
+      "Tisza": 32.26,
+      "DK": 7.58,
+      "Mi Hazánk": 6.36,
+      "MKKP": 2.41
     },
     "Jász-Nagykun-Szolnok 03": {
-      "Fidesz": 47.16,
-      "Tisza": 29.69,
-      "DK": 7.21,
-      "Mi Hazánk": 6.91,
-      "MKKP": 2.23
+      "Fidesz": 50.83,
+      "Tisza": 27.12,
+      "DK": 6.84,
+      "Mi Hazánk": 7.46,
+      "MKKP": 2.05
     },
     "Jász-Nagykun-Szolnok 04": {
-      "Fidesz": 47.16,
-      "Tisza": 29.69,
-      "DK": 7.21,
-      "Mi Hazánk": 6.91,
-      "MKKP": 2.23
+      "Fidesz": 58.16,
+      "Tisza": 21.99,
+      "DK": 6.11,
+      "Mi Hazánk": 8.56,
+      "MKKP": 1.68
     },
     "Komárom-Esztergom 01": {
-      "Fidesz": 42.65,
-      "Tisza": 31.74,
-      "DK": 8.79,
-      "Mi Hazánk": 7.08,
-      "MKKP": 3.46
+      "Fidesz": 31.65,
+      "Tisza": 39.44,
+      "DK": 9.89,
+      "Mi Hazánk": 5.43,
+      "MKKP": 4.01
     },
     "Komárom-Esztergom 02": {
       "Fidesz": 42.65,
@@ -470,200 +470,200 @@
       "MKKP": 3.46
     },
     "Komárom-Esztergom 03": {
-      "Fidesz": 42.65,
-      "Tisza": 31.74,
-      "DK": 8.79,
-      "Mi Hazánk": 7.08,
-      "MKKP": 3.46
+      "Fidesz": 53.65,
+      "Tisza": 24.04,
+      "DK": 7.69,
+      "Mi Hazánk": 8.73,
+      "MKKP": 2.91
     },
     "Nógrád 01": {
-      "Fidesz": 51.6,
-      "Tisza": 24.43,
-      "DK": 8.04,
-      "Mi Hazánk": 8.85,
-      "MKKP": 2.3
+      "Fidesz": 40.6,
+      "Tisza": 32.13,
+      "DK": 9.14,
+      "Mi Hazánk": 7.2,
+      "MKKP": 2.85
     },
     "Nógrád 02": {
-      "Fidesz": 51.6,
-      "Tisza": 24.43,
-      "DK": 8.04,
-      "Mi Hazánk": 8.85,
-      "MKKP": 2.3
+      "Fidesz": 62.6,
+      "Tisza": 16.73,
+      "DK": 6.94,
+      "Mi Hazánk": 10.5,
+      "MKKP": 1.75
     },
     "Pest 01": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 30.38,
+      "Tisza": 39.79,
+      "DK": 8.2,
+      "Mi Hazánk": 5.57,
+      "MKKP": 5.05
     },
     "Pest 02": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 32.07,
+      "Tisza": 38.61,
+      "DK": 8.03,
+      "Mi Hazánk": 5.82,
+      "MKKP": 4.97
     },
     "Pest 03": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 33.76,
+      "Tisza": 37.42,
+      "DK": 7.86,
+      "Mi Hazánk": 6.08,
+      "MKKP": 4.88
     },
     "Pest 04": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 35.46,
+      "Tisza": 36.24,
+      "DK": 7.69,
+      "Mi Hazánk": 6.33,
+      "MKKP": 4.8
     },
     "Pest 05": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 37.15,
+      "Tisza": 35.05,
+      "DK": 7.52,
+      "Mi Hazánk": 6.59,
+      "MKKP": 4.71
     },
     "Pest 06": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 38.84,
+      "Tisza": 33.87,
+      "DK": 7.35,
+      "Mi Hazánk": 6.84,
+      "MKKP": 4.63
     },
     "Pest 07": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 40.53,
+      "Tisza": 32.68,
+      "DK": 7.18,
+      "Mi Hazánk": 7.09,
+      "MKKP": 4.54
     },
     "Pest 08": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 42.23,
+      "Tisza": 31.5,
+      "DK": 7.02,
+      "Mi Hazánk": 7.35,
+      "MKKP": 4.46
     },
     "Pest 09": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 43.92,
+      "Tisza": 30.31,
+      "DK": 6.85,
+      "Mi Hazánk": 7.6,
+      "MKKP": 4.37
     },
     "Pest 10": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 45.61,
+      "Tisza": 29.13,
+      "DK": 6.68,
+      "Mi Hazánk": 7.85,
+      "MKKP": 4.29
     },
     "Pest 11": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 47.3,
+      "Tisza": 27.94,
+      "DK": 6.51,
+      "Mi Hazánk": 8.11,
+      "MKKP": 4.2
     },
     "Pest 12": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 49.0,
+      "Tisza": 26.76,
+      "DK": 6.34,
+      "Mi Hazánk": 8.36,
+      "MKKP": 4.12
     },
     "Pest 13": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 50.69,
+      "Tisza": 25.57,
+      "DK": 6.17,
+      "Mi Hazánk": 8.62,
+      "MKKP": 4.03
     },
     "Pest 14": {
-      "Fidesz": 41.38,
-      "Tisza": 32.09,
-      "DK": 7.1,
-      "Mi Hazánk": 7.22,
-      "MKKP": 4.5
+      "Fidesz": 52.38,
+      "Tisza": 24.39,
+      "DK": 6.0,
+      "Mi Hazánk": 8.87,
+      "MKKP": 3.95
     },
     "Somogy 01": {
-      "Fidesz": 50.18,
-      "Tisza": 27.19,
-      "DK": 7.85,
-      "Mi Hazánk": 6.8,
-      "MKKP": 2.4
+      "Fidesz": 39.18,
+      "Tisza": 34.89,
+      "DK": 8.95,
+      "Mi Hazánk": 5.15,
+      "MKKP": 2.95
     },
     "Somogy 02": {
-      "Fidesz": 50.18,
-      "Tisza": 27.19,
-      "DK": 7.85,
-      "Mi Hazánk": 6.8,
-      "MKKP": 2.4
+      "Fidesz": 46.51,
+      "Tisza": 29.76,
+      "DK": 8.22,
+      "Mi Hazánk": 6.25,
+      "MKKP": 2.58
     },
     "Somogy 03": {
-      "Fidesz": 50.18,
-      "Tisza": 27.19,
-      "DK": 7.85,
-      "Mi Hazánk": 6.8,
-      "MKKP": 2.4
+      "Fidesz": 53.85,
+      "Tisza": 24.62,
+      "DK": 7.48,
+      "Mi Hazánk": 7.35,
+      "MKKP": 2.22
     },
     "Somogy 04": {
-      "Fidesz": 50.18,
-      "Tisza": 27.19,
-      "DK": 7.85,
-      "Mi Hazánk": 6.8,
-      "MKKP": 2.4
+      "Fidesz": 61.18,
+      "Tisza": 19.49,
+      "DK": 6.75,
+      "Mi Hazánk": 8.45,
+      "MKKP": 1.85
     },
     "Szabolcs-Szatmár-Bereg 01": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 43.47,
+      "Tisza": 34.5,
+      "DK": 7.43,
+      "Mi Hazánk": 4.71,
+      "MKKP": 2.16
     },
     "Szabolcs-Szatmár-Bereg 02": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 47.87,
+      "Tisza": 31.42,
+      "DK": 6.99,
+      "Mi Hazánk": 5.37,
+      "MKKP": 1.94
     },
     "Szabolcs-Szatmár-Bereg 03": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 52.27,
+      "Tisza": 28.34,
+      "DK": 6.55,
+      "Mi Hazánk": 6.03,
+      "MKKP": 1.72
     },
     "Szabolcs-Szatmár-Bereg 04": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 56.67,
+      "Tisza": 25.26,
+      "DK": 6.11,
+      "Mi Hazánk": 6.69,
+      "MKKP": 1.5
     },
     "Szabolcs-Szatmár-Bereg 05": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 61.07,
+      "Tisza": 22.18,
+      "DK": 5.67,
+      "Mi Hazánk": 7.35,
+      "MKKP": 1.28
     },
     "Szabolcs-Szatmár-Bereg 06": {
-      "Fidesz": 54.47,
-      "Tisza": 26.8,
-      "DK": 6.33,
-      "Mi Hazánk": 6.36,
-      "MKKP": 1.61
+      "Fidesz": 65.47,
+      "Tisza": 19.1,
+      "DK": 5.23,
+      "Mi Hazánk": 8.01,
+      "MKKP": 1.06
     },
     "Tolna 01": {
-      "Fidesz": 51.94,
-      "Tisza": 24.94,
-      "DK": 7.02,
-      "Mi Hazánk": 7.75,
-      "MKKP": 2.57
+      "Fidesz": 40.94,
+      "Tisza": 32.64,
+      "DK": 8.12,
+      "Mi Hazánk": 6.1,
+      "MKKP": 3.12
     },
     "Tolna 02": {
       "Fidesz": 51.94,
@@ -673,18 +673,18 @@
       "MKKP": 2.57
     },
     "Tolna 03": {
-      "Fidesz": 51.94,
-      "Tisza": 24.94,
-      "DK": 7.02,
-      "Mi Hazánk": 7.75,
-      "MKKP": 2.57
+      "Fidesz": 62.94,
+      "Tisza": 17.24,
+      "DK": 5.92,
+      "Mi Hazánk": 9.4,
+      "MKKP": 2.02
     },
     "Vas 01": {
-      "Fidesz": 51.3,
-      "Tisza": 26.73,
-      "DK": 7.15,
-      "Mi Hazánk": 5.91,
-      "MKKP": 2.98
+      "Fidesz": 40.3,
+      "Tisza": 34.43,
+      "DK": 8.25,
+      "Mi Hazánk": 4.26,
+      "MKKP": 3.53
     },
     "Vas 02": {
       "Fidesz": 51.3,
@@ -694,46 +694,46 @@
       "MKKP": 2.98
     },
     "Vas 03": {
-      "Fidesz": 51.3,
-      "Tisza": 26.73,
-      "DK": 7.15,
-      "Mi Hazánk": 5.91,
-      "MKKP": 2.98
+      "Fidesz": 62.3,
+      "Tisza": 19.03,
+      "DK": 6.05,
+      "Mi Hazánk": 7.56,
+      "MKKP": 2.43
     },
     "Veszprém 01": {
-      "Fidesz": 45.56,
-      "Tisza": 29.28,
-      "DK": 8.12,
-      "Mi Hazánk": 6.94,
-      "MKKP": 3.49
+      "Fidesz": 34.56,
+      "Tisza": 36.98,
+      "DK": 9.22,
+      "Mi Hazánk": 5.29,
+      "MKKP": 4.04
     },
     "Veszprém 02": {
-      "Fidesz": 45.56,
-      "Tisza": 29.28,
-      "DK": 8.12,
-      "Mi Hazánk": 6.94,
-      "MKKP": 3.49
+      "Fidesz": 41.89,
+      "Tisza": 31.85,
+      "DK": 8.49,
+      "Mi Hazánk": 6.39,
+      "MKKP": 3.67
     },
     "Veszprém 03": {
-      "Fidesz": 45.56,
-      "Tisza": 29.28,
-      "DK": 8.12,
-      "Mi Hazánk": 6.94,
-      "MKKP": 3.49
+      "Fidesz": 49.23,
+      "Tisza": 26.71,
+      "DK": 7.75,
+      "Mi Hazánk": 7.49,
+      "MKKP": 3.31
     },
     "Veszprém 04": {
-      "Fidesz": 45.56,
-      "Tisza": 29.28,
-      "DK": 8.12,
-      "Mi Hazánk": 6.94,
-      "MKKP": 3.49
+      "Fidesz": 56.56,
+      "Tisza": 21.58,
+      "DK": 7.02,
+      "Mi Hazánk": 8.59,
+      "MKKP": 2.94
     },
     "Zala 01": {
-      "Fidesz": 49.83,
-      "Tisza": 28.19,
-      "DK": 7.14,
-      "Mi Hazánk": 6.74,
-      "MKKP": 2.52
+      "Fidesz": 38.83,
+      "Tisza": 35.89,
+      "DK": 8.24,
+      "Mi Hazánk": 5.09,
+      "MKKP": 3.07
     },
     "Zala 02": {
       "Fidesz": 49.83,
