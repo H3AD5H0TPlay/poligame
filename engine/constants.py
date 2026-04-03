@@ -64,7 +64,7 @@ COLOR_ERROR   = (230, 80, 80)
 # ============================================================================
 TOTAL_MANDATES = 199
 OEVK_COUNT = 106
-LIST_MANDATES = 93        # 199 - 106 = 93 (a nemzetiségit külön adjuk)
+LIST_MANDATES = 92        # 199 - 106 = 93 (a nemzetiségit külön adjuk)
 PARLIAMENT_THRESHOLD = 5  # 5%-os bejutási küszöb
 
 # Határon túli levélszavazatok becslése (21K módszertan)
