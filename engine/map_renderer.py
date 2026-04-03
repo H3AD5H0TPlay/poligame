@@ -176,7 +176,7 @@ class MapRenderer:
             for poly in geom.geoms:
                 draw_poly(poly)
 
-    def draw(self, surface, mouse_pos, sim_results=None):
+    def draw(self, surface, mouse_pos, show_oevk=False, sim_results=None):
         surface.fill((18, 22, 35))
         
         hovered_name = None
@@ -186,7 +186,6 @@ class MapRenderer:
         geo_y = self.max_lat - (mouse_pos[1] - self.offset_y) / self.scale
         geo_mouse = Point(geo_x, geo_y)
         
-        show_oevk = self.scale > self.base_scale * 2.5
         elements = self.oevks if show_oevk else list(self.counties.values())
         
         for elem in elements:
